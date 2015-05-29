@@ -3,7 +3,7 @@
 This module provides a lightweight, fast, easy-to-use XML parser which generates a simplified object / array tree.  This can be very useful for parsing XML configuration files and the like.  It is 100% pure JavaScript and has no dependencies.
 
 * Pure JavaScript, no dependencies
-* Very fast parser (About 5X faster than [xml2js](https://www.npmjs.com/package/xml2js))
+* Very fast parser (About 6X faster than [xml2js](https://www.npmjs.com/package/xml2js))
 * Low memory usage (About 60% less than [xml2js](https://www.npmjs.com/package/xml2js))
 * Fully synchronous operation, no callbacks
 * Can parse XML strings or load from files
@@ -281,6 +281,11 @@ This function returns the first key of the hash when iterating over it.  Note th
 	var my_hash = { foo: "bar", baz: 12345 };
 	var key = XML.firstKey( my_hash ); // foo or baz
 ```
+
+# Known Issues
+
+* Serialized XML doesn't exactly match parsed XML.
+* Unicode XML entities are not decoded when parsed.
 
 # License
 

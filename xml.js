@@ -426,20 +426,20 @@ var trim = exports.trim = function trim(text) {
 var encode_entities = exports.encodeEntities = function encode_entities(text) {
 	// Simple entitize exports.for = function for composing XML
 	if (text == null) return '';
-
+	
 	if (text && text.replace) {
 		text = text.replace(/\&/g, "&amp;"); // MUST BE FIRST
 		text = text.replace(/</g, "&lt;");
 		text = text.replace(/>/g, "&gt;");
 	}
-
+	
 	return text;
 };
 
 var encode_attrib_entities = exports.encodeAttribEntities = function encode_attrib_entities(text) {
 	// Simple entitize exports.for = function for composing XML attributes
 	if (text == null) return '';
-
+	
 	if (text && text.replace) {
 		text = text.replace(/\&/g, "&amp;"); // MUST BE FIRST
 		text = text.replace(/</g, "&lt;");
@@ -447,22 +447,22 @@ var encode_attrib_entities = exports.encodeAttribEntities = function encode_attr
 		text = text.replace(/\"/g, "&quot;");
 		text = text.replace(/\'/g, "&apos;");
 	}
-
+	
 	return text;
 };
 
 var decode_entities = exports.decodeEntities = function decode_entities(text) {
 	// Decode XML entities into raw ASCII
 	if (text == null) return '';
-
-	if (text && text.replace) {
+	
+	if (text && text.replace && text.match(/\&/)) {
 		text = text.replace(/\&lt\;/g, "<");
 		text = text.replace(/\&gt\;/g, ">");
 		text = text.replace(/\&quot\;/g, '"');
 		text = text.replace(/\&apos\;/g, "'");
 		text = text.replace(/\&amp\;/g, "&"); // MUST BE LAST
 	}
-
+	
 	return text;
 };
 

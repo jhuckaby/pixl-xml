@@ -6,7 +6,7 @@ This module provides a lightweight, fast, easy-to-use XML parser which generates
 * Very fast parser (About 6X faster than [xml2js](https://www.npmjs.com/package/xml2js))
 * Low memory usage (About 60% less than [xml2js](https://www.npmjs.com/package/xml2js))
 * Fully synchronous operation, no callbacks
-* Can parse XML strings or load from files
+* Can parse XML strings, Buffers or load from files
 * Can preserve or flatten attributes
 * Can convert all keys to lower-case
 * Can serialize objects back to pretty-printed XML

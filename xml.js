@@ -40,6 +40,11 @@ var XML = exports.XML = function XML(args) {
 	}
 	else this.text = args || '';
 	
+	// stringify buffers
+	if (this.text instanceof Buffer) {
+		this.text = this.text.toString();
+	}
+	
 	if (!this.text.match(/^\s*</)) {
 		// try as file path
 		var file = this.text;

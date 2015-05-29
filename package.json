@@ -1,6 +1,6 @@
 {
   "name": "pixl-xml",
-  "version": "1.0.1",
+  "version": "1.0.2",
   "description": "A simple module for parsing and composing XML.",
   "author": "Joseph Huckaby <jhuckaby@gmail.com>",
   "homepage": "https://github.com/jhuckaby/pixl-xml",

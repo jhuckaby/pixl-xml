@@ -87,7 +87,7 @@ XML.prototype.patInlineDTDNode = /^\s*\!DOCTYPE\s+([\w\-\:]+)\s+\[/;
 XML.prototype.patEndDTD = /\]$/;
 XML.prototype.patDTDNode = /^\s*\!DOCTYPE\s+([\w\-\:]+)\s+\[(.*)\]/;
 XML.prototype.patEndCDATA = /\]\]$/;
-XML.prototype.patCDATANode = /^\s*\!\s*\[\s*CDATA\s*\[(.*)\]\]/;
+XML.prototype.patCDATANode = /^\s*\!\s*\[\s*CDATA\s*\[([^]*)\]\]/;
 
 XML.prototype.attribsKey = '_Attribs';
 XML.prototype.dataKey = '_Data';

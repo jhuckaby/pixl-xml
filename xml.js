@@ -481,6 +481,12 @@ var compose_xml = exports.stringify = function compose_xml(node, name, indent) {
 	if (!indent) {
 		indent = 0;
 		xml = xml_header + "\n";
+		
+		if (!name) {
+			// no name provided, assume content is wrapped in it
+			name = first_key(node);
+			node = node[name];
+		}
 	}
 	
 	// Setup the indent text

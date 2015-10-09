@@ -17,7 +17,7 @@
 		tree.Node._Data = "Content2";
 		tree.New = "I added this";
 		
-		console.log( XML.serialize( tree, 'Document' ) );
+		console.log( XML.stringify( tree, 'Document' ) );
 	
 	Copyright (c) 2004 - 2015 Joseph Huckaby
 	Released under the MIT License

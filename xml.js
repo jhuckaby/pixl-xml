@@ -583,13 +583,13 @@ var hash_keys_to_array = exports.hashKeysToArray = function hash_keys_to_array(h
 
 var isa_hash = exports.isaHash = function isa_hash(arg) {
 	// determine if arg is a hash
-	return( !!arg && (typeof(arg) == 'object') && (typeof(arg.length) == 'undefined') );
+	return( !!arg && (typeof(arg) == 'object') && (arg !== null) );
 };
 
 var isa_array = exports.isaArray = function isa_array(arg) {
 	// determine if arg is an array or is array-like
 	if (typeof(arg) == 'array') return true;
-	return( !!arg && (typeof(arg) == 'object') && (typeof(arg.length) != 'undefined') );
+	return q.constructor === Array;
 };
 
 var first_key = exports.firstKey = function first_key(hash) {

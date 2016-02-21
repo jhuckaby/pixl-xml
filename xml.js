@@ -25,6 +25,9 @@
 */
 
 var fs = require('fs');
+var util = require('util');
+
+var isArray = Array.isArray || util.isArray; // support for older Node.js
 
 var indent_string = "\t";
 var xml_header = '<?xml version="1.0"?>';
@@ -581,15 +584,14 @@ var hash_keys_to_array = exports.hashKeysToArray = function hash_keys_to_array(h
 	return array;
 };
 
-var isa_hash = exports.isaHash = function isa_hash(arg) {
-	// determine if arg is a hash
-	return( !!arg && (typeof(arg) == 'object') && (typeof(arg.length) == 'undefined') );
-};
-
 var isa_array = exports.isaArray = function isa_array(arg) {
 	// determine if arg is an array or is array-like
-	if (typeof(arg) == 'array') return true;
-	return( !!arg && (typeof(arg) == 'object') && (typeof(arg.length) != 'undefined') );
+	return isArray(arg);
+};
+
+var isa_hash = exports.isaHash = function isa_hash(arg) {
+	// determine if arg is a hash
+	return( !!arg && (typeof(arg) == 'object') && !isa_array(arg) );
 };
 
 var first_key = exports.firstKey = function first_key(hash) {

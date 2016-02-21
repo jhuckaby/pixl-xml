@@ -79,7 +79,7 @@ XML.prototype.patPITag = /^\s*\?/;
 XML.prototype.patCommentTag = /^\s*\!--/;
 XML.prototype.patDTDTag = /^\s*\!DOCTYPE/;
 XML.prototype.patCDATATag = /^\s*\!\s*\[\s*CDATA/;
-XML.prototype.patStandardTag = /^\s*(\/?)([\w\-\:\.]+)\s*(.*)$/;
+XML.prototype.patStandardTag = /^\s*(\/?)([\w\-\:\.]+)\s*([\s\S]*)$/;
 XML.prototype.patSelfClosing = /\/\s*$/;
 XML.prototype.patAttrib = new RegExp("([\\w\\-\\:\\.]+)\\s*=\\s*([\\\"\\'])([^\\2]*?)\\2", "g");
 XML.prototype.patPINode = /^\s*\?\s*([\w\-\:]+)\s*(.*)$/;

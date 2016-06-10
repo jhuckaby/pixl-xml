@@ -70,6 +70,7 @@ var XML = exports.XML = function XML(args) {
 	if (this.text) this.parse();
 }
 
+XML.prototype.preserveDocumentNode = false;
 XML.prototype.preserveAttributes = false;
 XML.prototype.lowerCase = false;
 
@@ -230,7 +231,7 @@ XML.prototype.parse = function(branch, name) {
 		}
 
 		this.documentNodeName = first_key(this.tree);
-		if (this.documentNodeName) {
+		if (this.documentNodeName && !this.preserveDocumentNode) {
 			this.tree = this.tree[this.documentNodeName];
 		}
 	}

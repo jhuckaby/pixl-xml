@@ -25,6 +25,10 @@ Then use `require()` to load it in your code:
 var XML = require('pixl-xml');
 ```
 
+# Simplified API
+
+The simplified API provides basic `parse()` and `stringify()` functions for parsing and serializing XML.
+
 Parse some XML by passing a string to `XML.parse()`:
 
 ```javascript
@@ -188,11 +192,60 @@ If you are composing an XML document which has the document root node preserved 
 var xml_string = XML.stringify( doc );
 ```
 
-## Utility Functions
+# Object-Oriented API
 
-Here are a few utility functions you can use:
+In addition to the [Simplified API](#simplified-api), an object-oriented API is also available.  Using this, you instantiate an `XML.Parser` class instance, and use that to parse, manipulate and serialize XML.  The constructor accepts up to two arguments, the raw XML string, and an optional object with configuration options.
 
-### encodeEntities
+After constructing the `XML.Parser` object, and no error was thrown, call `getTree()` to get a reference to the simplified XML structure in memory, manipulate it if you want, then call `compose()` to serialize the object tree back into XML.
+
+The main reason for using this API is that it preserves any PI (Processing Instructions) and DTD (Document Type Definition) elements in the source XML file, and they will be serialized into the output.  Example:
+
+```js
+var xml_string = '<?xml version="1.0" encoding="UTF-8"?><Document>' + 
+	'<Simple>Hello</Simple>' + 
+	'<Node Key="Value">Complex</Node>' + 
+	'</Document>';
+
+var parser = null;
+try {
+	parser = new XML.Parser( xml_string, { preserveAttributes: true } );
+}
+catch (err) {
+	throw err;
+}
+
+var doc = parser.getTree();
+doc.Simple = "Hello, I changed this.";
+
+console.log( parser.compose() );
+```
+
+This would produce the following output:
+
+```xml
+<?xml version="1.0" encoding="UTF-8"?>
+<Document>
+	<Node Key="Value">Complex</Node>
+	<Simple>Hello, I changed this.</Simple>
+</Document>
+```
+
+Notice that the PI element with its `encoding` attribute was preserved and serialized.
+
+To manipulate the PI nodes, access the `piNodeList` property.  It is an array of strings, each one representing one raw PI node sans the surrounding angle brackets, e.g. `?xml version="1.0"?`.  Similarly, any DTD nodes are stored in the `dtdNodeList` property (also an array).  Feel free to change these to customize your serialized XML document.
+
+```js
+parser.piNodeList = [ '?xml version="1.0" encoding="UTF-8"?' ];
+parser.dtdNodeList = [ '!DOCTYPE MyAppConfig SYSTEM "/dtds/AppConfig.dtd"' ];
+
+console.log( parser.compose() );
+```
+
+# Utility Functions
+
+Here are a few utility functions that are provided in the package:
+
+## encodeEntities
 
 ```
 STRING encodeEntities( STRING )
@@ -206,7 +259,7 @@ console.log( XML.encodeEntities(text) );
 // Would output: &lt;Hello&gt;&amp;&lt;There&gt;
 ```
 
-### encodeAttribEntities
+## encodeAttribEntities
 
 ```
 STRING encodeAttribEntities( STRING )
@@ -220,7 +273,7 @@ console.log( XML.encodeAttribEntities(text) );
 // Would output: &lt;Hello&gt;&quot;&amp;&quot;&lt;There&gt;
 ```
 
-### decodeEntities
+## decodeEntities
 
 ```
 STRING decodeEntities( STRING )
@@ -234,7 +287,7 @@ console.log( XML.decodeEntities(text) );
 // Would output: <Hello>"&"<There>
 ```
 
-### alwaysArray
+## alwaysArray
 
 ```
 ARRAY alwaysArray( MIXED )
@@ -246,7 +299,7 @@ This function will wrap anything passed to it into an array and return the array
 var arr = XML.alwaysArray( maybe_array );
 ```
 
-### hashKeysToArray
+## hashKeysToArray
 
 ```
 ARRAY hashKeysToArray( OBJECT )
@@ -264,7 +317,7 @@ for (var idx = 0, len = keys.length; idx < len; idx++) {
 }
 ```
 
-### isaHash
+## isaHash
 
 ```
 BOOLEAN isaHash( MIXED )
@@ -277,7 +330,7 @@ var my_hash = { foo: "bar", baz: 12345 };
 var is_hash = XML.isaHash( my_hash );
 ```
 
-### isaArray
+## isaArray
 
 ```
 BOOLEAN isaArray( MIXED )
@@ -290,7 +343,7 @@ var my_arr = [ "foo", "bar", 12345 ];
 var is_arr = XML.isaArray( my_arr );
 ```
 
-### numKeys
+## numKeys
 
 ```
 INTEGER numKeys( OBJECT )
@@ -303,7 +356,7 @@ var my_hash = { foo: "bar", baz: 12345 };
 var num = XML.numKeys( my_hash ); // 2
 ```
 
-### firstKey
+## firstKey
 
 ```
 STRING firstKey( OBJECT )

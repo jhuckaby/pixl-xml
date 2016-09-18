@@ -34,7 +34,7 @@ var xml_header = '<?xml version="1.0"?>';
 var sort_args = null;
 var re_valid_tag_name  = /^\w[\w\-\:]*$/;
 
-var XML = exports.XML = function XML(args) {
+var XML = exports.XML = exports.Parser = function XML(args, opts) {
 	// class constructor for XML parser class
 	// pass in args hash or text to parse
 	if (!args) args = '';
@@ -42,6 +42,11 @@ var XML = exports.XML = function XML(args) {
 		for (var key in args) this[key] = args[key];
 	}
 	else this.text = args || '';
+	
+	// options may be 2nd argument as well
+	if (opts) {
+		for (var key in opts) this[key] = opts[key];
+	}
 	
 	// stringify buffers
 	if (this.text instanceof Buffer) {
@@ -385,7 +390,10 @@ XML.prototype.getTree = function() {
 
 XML.prototype.compose = function() {
 	// compose tree back into XML
-	var raw = compose_xml( this.tree, this.documentNodeName );
+	var tree = this.tree;
+	if (this.preserveDocumentNode) tree = tree[this.documentNodeName];
+	
+	var raw = compose_xml( tree, this.documentNodeName );
 	var body = raw.substring( raw.indexOf("\n") + 1, raw.length );
 	var xml = '';
 	

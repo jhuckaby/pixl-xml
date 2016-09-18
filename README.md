@@ -27,7 +27,7 @@ var XML = require('pixl-xml');
 
 # Simplified API
 
-The simplified API provides basic `parse()` and `stringify()` functions for parsing and serializing XML.
+The simplified API provides basic `XML.parse()` and `XML.stringify()` standalone functions for parsing and serializing XML.  Also see the [Object-Oriented API](#object-oriented-api) below, for more control over your XML.
 
 Parse some XML by passing a string to `XML.parse()`:
 
@@ -198,7 +198,7 @@ In addition to the [Simplified API](#simplified-api), an object-oriented API is 
 
 After constructing the `XML.Parser` object, and no error was thrown, call `getTree()` to get a reference to the simplified XML structure in memory, manipulate it if you want, then call `compose()` to serialize the object tree back into XML.
 
-The main reason for using this API is that it preserves any PI (Processing Instructions) and DTD (Document Type Definition) elements in the source XML file, and they will be serialized into the output.  Example:
+The main reason for using this API is that it preserves any PI ([Processing Instruction](https://en.wikipedia.org/wiki/Processing_Instruction)) and DTD ([Document Type Definition](https://en.wikipedia.org/wiki/Document_type_definition)) elements in the source XML file, and they will be serialized into the output.  Example:
 
 ```js
 var xml_string = '<?xml version="1.0" encoding="UTF-8"?><Document>' + 
@@ -232,7 +232,7 @@ This would produce the following output:
 
 Notice that the PI element with its `encoding` attribute was preserved and serialized.
 
-To manipulate the PI nodes, access the `piNodeList` property.  It is an array of strings, each one representing one raw PI node sans the surrounding angle brackets, e.g. `?xml version="1.0"?`.  Similarly, any DTD nodes are stored in the `dtdNodeList` property (also an array).  Feel free to change these to customize your serialized XML document.
+To manipulate the PI nodes, access the `piNodeList` property on your parser object.  It is an array of strings, each one representing one raw PI node sans the surrounding angle brackets, e.g. `?xml version="1.0"?`.  Similarly, any DTD nodes are stored in a `dtdNodeList` property (also an array).  Feel free to change these to customize your serialized XML documents.
 
 ```js
 parser.piNodeList = [ '?xml version="1.0" encoding="UTF-8"?' ];

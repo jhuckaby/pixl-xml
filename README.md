@@ -9,7 +9,7 @@ This module provides a lightweight, fast, easy-to-use XML parser which generates
 * Can parse XML strings, Buffers or load from files
 * Can preserve or flatten attributes
 * Can convert all keys to lower-case
-* Can serialize objects back to pretty-printed XML
+* Can serialize objects back to pretty-printed or compact XML
 
 # Usage
 
@@ -192,6 +192,27 @@ If you are composing an XML document which has the document root node preserved 
 var xml_string = XML.stringify( doc );
 ```
 
+### Compact XML
+
+To produce compact XML output (i.e. without indentation nor EOLs) you simply have to call `stringify()` with three additional arguments.  Pass in `0` indicating a zero indent level, and then two empty strings, one representing the indentation character (defaults to `\t`) and finally the EOL character (defaults to `\n`).  Example:
+
+```javascript
+var xml_string = XML.stringify( doc, 'Document', 0, "", "" );
+console.log( xml_string );
+```
+
+This would produce something like:
+
+```xml
+<?xml version="1.0"?><Document><Node Key="Value">Content</Node><Simple>Hello</Simple></Document>
+```
+
+If you are composing an XML document which has the document root node preserved (see [preserveDocumentNode](#preserveDocumentNode) above), simply pass in an empty string for the name parameter.  Example:
+
+```js
+var xml_string = XML.stringify( doc, "", 0, "", "" );
+```
+
 # Object-Oriented API
 
 In addition to the [Simplified API](#simplified-api), an object-oriented API is also available.  Using this, you instantiate an `XML.Parser` class instance, and use that to parse, manipulate and serialize XML.  The constructor accepts up to two arguments, the raw XML string, and an optional object with configuration options.
@@ -239,6 +260,22 @@ parser.piNodeList = [ '?xml version="1.0" encoding="UTF-8"?' ];
 parser.dtdNodeList = [ '!DOCTYPE MyAppConfig SYSTEM "/dtds/AppConfig.dtd"' ];
 
 console.log( parser.compose() );
+```
+
+## Custom XML Formatting
+
+To produce custom XML formatting using the object-oriented API, you can pass two arguments to the `compose()` method.  The first argument represents the indentation character (defaults to `\t`) and the second argument represents the EOL character (defaults to `\n`).
+
+For example, to produce compact XML (i.e. all crammed onto one line) set both arguments to empty strings.  Example:
+
+```js
+console.log( parser.compose("", "") );
+```
+
+This would produce the following output:
+
+```xml
+<?xml version="1.0" encoding="UTF-8"?><Document><Node Key="Value">Complex</Node><Simple>Hello, I changed this.</Simple></Document>
 ```
 
 # Utility Functions

@@ -29,7 +29,6 @@ var util = require('util');
 
 var isArray = Array.isArray || util.isArray; // support for older Node.js
 
-var indent_string = "\t";
 var xml_header = '<?xml version="1.0"?>';
 var sort_args = null;
 var re_valid_tag_name  = /^\w[\w\-\:]*$/;
@@ -388,27 +387,28 @@ XML.prototype.getTree = function() {
 	return this.tree;
 };
 
-XML.prototype.compose = function() {
+XML.prototype.compose = function(indent_string, eol) {
 	// compose tree back into XML
+	if (typeof(eol) == 'undefined') eol = "\n";
 	var tree = this.tree;
 	if (this.preserveDocumentNode) tree = tree[this.documentNodeName];
 	
-	var raw = compose_xml( tree, this.documentNodeName );
-	var body = raw.substring( raw.indexOf("\n") + 1, raw.length );
+	var raw = compose_xml( tree, this.documentNodeName, 0, indent_string, eol );
+	var body = raw.replace(/^\s*\<\?.+?\?\>\s*/, '');
 	var xml = '';
 	
 	if (this.piNodeList.length) {
 		for (var idx = 0, len = this.piNodeList.length; idx < len; idx++) {
-			xml += '<' + this.piNodeList[idx] + '>' + "\n";
+			xml += '<' + this.piNodeList[idx] + '>' + eol;
 		}
 	}
 	else {
-		xml += xml_header + "\n";
+		xml += xml_header + eol;
 	}
 	
 	if (this.dtdNodeList.length) {
 		for (var idx = 0, len = this.dtdNodeList.length; idx < len; idx++) {
-			xml += '<' + this.dtdNodeList[idx] + '>' + "\n";
+			xml += '<' + this.dtdNodeList[idx] + '>' + eol;
 		}
 	}
 	
@@ -483,16 +483,18 @@ var decode_entities = exports.decodeEntities = function decode_entities(text) {
 	return text;
 };
 
-var compose_xml = exports.stringify = function compose_xml(node, name, indent) {
+var compose_xml = exports.stringify = function compose_xml(node, name, indent, indent_string, eol) {
 	// Compose node into XML including attributes
 	// Recurse for child nodes
+	if (typeof(indent_string) == 'undefined') indent_string = "\t";
+	if (typeof(eol) == 'undefined') eol = "\n";
 	var xml = "";
 	
 	// If this is the root node, set the indent to 0
 	// and setup the XML header (PI node)
 	if (!indent) {
 		indent = 0;
-		xml = xml_header + "\n";
+		xml = xml_header + eol;
 		
 		if (!name) {
 			// no name provided, assume content is wrapped in it
@@ -504,17 +506,17 @@ var compose_xml = exports.stringify = function compose_xml(node, name, indent) {
 	// Setup the indent text
 	var indent_text = "";
 	for (var k = 0; k < indent; k++) indent_text += indent_string;
-
+	
 	if ((typeof(node) == 'object') && (node != null)) {
 		// node is object -- now see if it is an array or hash
 		if (!node.length) { // what about zero-length array?
 			// node is hash
 			xml += indent_text + "<" + name;
-
+			
 			var num_keys = 0;
 			var has_attribs = 0;
 			for (var key in node) num_keys++; // there must be a better way...
-
+			
 			if (node["_Attribs"]) {
 				has_attribs = 1;
 				var sorted_keys = hash_keys_to_array(node["_Attribs"]).sort();
@@ -523,48 +525,48 @@ var compose_xml = exports.stringify = function compose_xml(node, name, indent) {
 					xml += " " + key + "=\"" + encode_attrib_entities(node["_Attribs"][key]) + "\"";
 				}
 			} // has attribs
-
+			
 			if (num_keys > has_attribs) {
 				// has child elements
 				xml += ">";
-
+				
 				if (node["_Data"]) {
 					// simple text child node
-					xml += encode_entities(node["_Data"]) + "</" + name + ">\n";
+					xml += encode_entities(node["_Data"]) + "</" + name + ">" + eol;
 				} // just text
 				else {
-					xml += "\n";
+					xml += eol;
 					
 					var sorted_keys = hash_keys_to_array(node).sort();
 					for (var idx = 0, len = sorted_keys.length; idx < len; idx++) {
 						var key = sorted_keys[idx];					
 						if ((key != "_Attribs") && key.match(re_valid_tag_name)) {
 							// recurse for node, with incremented indent value
-							xml += compose_xml( node[key], key, indent + 1 );
+							xml += compose_xml( node[key], key, indent + 1, indent_string, eol );
 						} // not _Attribs key
 					} // foreach key
-
-					xml += indent_text + "</" + name + ">\n";
+					
+					xml += indent_text + "</" + name + ">" + eol;
 				} // real children
 			}
 			else {
 				// no child elements, so self-close
-				xml += "/>\n";
+				xml += "/>" + eol;
 			}
 		} // standard node
 		else {
 			// node is array
 			for (var idx = 0; idx < node.length; idx++) {
 				// recurse for node in array with same indent
-				xml += compose_xml( node[idx], name, indent );
+				xml += compose_xml( node[idx], name, indent, indent_string, eol );
 			}
 		} // array of nodes
 	} // complex node
 	else {
 		// node is simple string
-		xml += indent_text + "<" + name + ">" + encode_entities(node) + "</" + name + ">\n";
+		xml += indent_text + "<" + name + ">" + encode_entities(node) + "</" + name + ">" + eol;
 	} // simple text node
-
+	
 	return xml;
 };
 

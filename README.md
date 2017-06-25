@@ -184,7 +184,11 @@ This would produce something like:
 </Document>
 ```
 
+<<<<<<< HEAD
 Note that elements and attributes may lose their original ordering, as hashes have an undefined key order.  However, to keep things consistent, they are both alphabetically sorted when serialized. If you would like to skip this sorting and hope for the best :), pass false as the last parameter `var xml_string = XML.stringify( doc, 'Document', 0, "", "", false );`
+=======
+Note that elements and attributes may lose their original ordering, as hashes have an undefined key order. However, to keep things consistent, they are both alphabetically sorted when serialized. If you would like to skip this sorting and hope for the best :), pass false as the last parameter `var xml_string = XML.stringify( doc, 'Document', 0, "", "", false );`
+>>>>>>> sort
 
 If you are composing an XML document which has the document root node preserved (see [preserveDocumentNode](#preserveDocumentNode) above), simply omit the name parameter, and only pass in the object.  Example:
 

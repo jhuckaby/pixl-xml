@@ -488,7 +488,7 @@ var compose_xml = exports.stringify = function compose_xml(node, name, indent, i
 	// Recurse for child nodes
 	if (typeof(indent_string) == 'undefined') indent_string = "\t";
 	if (typeof(eol) == 'undefined') eol = "\n";
-  if (typeof(sort) == 'undefined') sort = true;
+      if (typeof(sort) == 'undefined') sort = true;
 	var xml = "";
 
 	// If this is the root node, set the indent to 0
@@ -520,7 +520,7 @@ var compose_xml = exports.stringify = function compose_xml(node, name, indent, i
 
 			if (node["_Attribs"]) {
 				has_attribs = 1;
-				var sorted_keys = (sort) ? hash_keys_to_array(node["_Attribs"]).sort() : hash_keys_to_array(node["_Attribs"]);
+                              var sorted_keys = (sort) ? hash_keys_to_array(node["_Attribs"]).sort() : hash_keys_to_array(node["_Attribs"]);
 				for (var idx = 0, len = sorted_keys.length; idx < len; idx++) {
 					var key = sorted_keys[idx];
 					xml += " " + key + "=\"" + encode_attrib_entities(node["_Attribs"][key]) + "\"";
@@ -537,8 +537,8 @@ var compose_xml = exports.stringify = function compose_xml(node, name, indent, i
 				} // just text
 				else {
 					xml += eol;
-
-					var sorted_keys = (sort) ? hash_keys_to_array(node).sort() : hash_keys_to_array(node);
+					
+                                      var sorted_keys = (sort) ? hash_keys_to_array(node).sort() : hash_keys_to_array(node);					
 					for (var idx = 0, len = sorted_keys.length; idx < len; idx++) {
 						var key = sorted_keys[idx];
 						if ((key != "_Attribs") && key.match(re_valid_tag_name)) {

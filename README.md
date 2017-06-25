@@ -32,9 +32,9 @@ The simplified API provides basic `XML.parse()` and `XML.stringify()` standalone
 Parse some XML by passing a string to `XML.parse()`:
 
 ```javascript
-var xml_string = '<?xml version="1.0"?><Document>' + 
-	'<Simple>Hello</Simple>' + 
-	'<Node Key="Value">Complex</Node>' + 
+var xml_string = '<?xml version="1.0"?><Document>' +
+	'<Simple>Hello</Simple>' +
+	'<Node Key="Value">Complex</Node>' +
 	'</Document>';
 
 var doc = XML.parse( xml_string );
@@ -84,9 +84,9 @@ You can pass an optional 2nd argument to `parse()`, which can be an object conta
 This optional property, when set to `true`, will cause all XML attributes to be kept separate in their own sub-object called `_Attribs` for each element.  For example, consider this snippet:
 
 ```javascript
-var xml_string = '<?xml version="1.0"?><Document>' + 
-	'<Simple>Hello</Simple>' + 
-	'<Node Key="Value">Complex</Node>' + 
+var xml_string = '<?xml version="1.0"?><Document>' +
+	'<Simple>Hello</Simple>' +
+	'<Node Key="Value">Complex</Node>' +
 	'</Document>';
 
 var doc = XML.parse( xml_string, { preserveAttributes: true } );
@@ -114,9 +114,9 @@ Notice the `Key` attribute of the `<Node>` element is now kept in an `_Attribs` 
 This optional property, when set to `true`, will cause all keys to be lower-cased as the XML is parsed.  This affects both elements and attributes.  Example:
 
 ```javascript
-var xml_string = '<?xml version="1.0"?><Document>' + 
-	'<Simple>Hello</Simple>' + 
-	'<Node Key="Value">Complex</Node>' + 
+var xml_string = '<?xml version="1.0"?><Document>' +
+	'<Simple>Hello</Simple>' +
+	'<Node Key="Value">Complex</Node>' +
 	'</Document>';
 
 var doc = XML.parse( xml_string, { lowerCase: true } );
@@ -142,9 +142,9 @@ Note that the values themselves are not touched -- only the keys are lower-cased
 If you want the outermost root node (also called the document node) preserved when parsing, set the `preserveDocumentNode` property to true when parsing.  Example:
 
 ```js
-var xml_string = '<?xml version="1.0"?><Document>' + 
-	'<Simple>Hello</Simple>' + 
-	'<Node Key="Value">Complex</Node>' + 
+var xml_string = '<?xml version="1.0"?><Document>' +
+	'<Simple>Hello</Simple>' +
+	'<Node Key="Value">Complex</Node>' +
 	'</Document>';
 
 var doc = XML.parse( xml_string, { preserveDocumentNode: true } );
@@ -184,7 +184,7 @@ This would produce something like:
 </Document>
 ```
 
-Note that elements and attributes may lose their original ordering, as hashes have an undefined key order.  However, to keep things consistent, they are both alphabetically sorted when serialized.
+Note that elements and attributes may lose their original ordering, as hashes have an undefined key order. However, to keep things consistent, they are both alphabetically sorted when serialized. If you would like to skip this sorting and hope for the best :), pass false as the last parameter `var xml_string = XML.stringify( doc, 'Document', 0, "", "", false );`
 
 If you are composing an XML document which has the document root node preserved (see [preserveDocumentNode](#preserveDocumentNode) above), simply omit the name parameter, and only pass in the object.  Example:
 
@@ -222,9 +222,9 @@ After constructing the `XML.Parser` object, and no error was thrown, call `getTr
 The main reason for using this API is that it preserves any PI ([Processing Instruction](https://en.wikipedia.org/wiki/Processing_Instruction)) and DTD ([Document Type Definition](https://en.wikipedia.org/wiki/Document_type_definition)) elements in the source XML file, and they will be serialized into the output.  Example:
 
 ```js
-var xml_string = '<?xml version="1.0" encoding="UTF-8"?><Document>' + 
-	'<Simple>Hello</Simple>' + 
-	'<Node Key="Value">Complex</Node>' + 
+var xml_string = '<?xml version="1.0" encoding="UTF-8"?><Document>' +
+	'<Simple>Hello</Simple>' +
+	'<Node Key="Value">Complex</Node>' +
 	'</Document>';
 
 var parser = null;

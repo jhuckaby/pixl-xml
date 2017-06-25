@@ -488,7 +488,7 @@ var compose_xml = exports.stringify = function compose_xml(node, name, indent, i
 	// Recurse for child nodes
 	if (typeof(indent_string) == 'undefined') indent_string = "\t";
 	if (typeof(eol) == 'undefined') eol = "\n";
-      if (typeof(sort) == 'undefined') sort = true;
+        if (typeof(sort) == 'undefined') sort = true;
 	var xml = "";
 
 	// If this is the root node, set the indent to 0

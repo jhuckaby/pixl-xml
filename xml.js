@@ -483,11 +483,12 @@ var decode_entities = exports.decodeEntities = function decode_entities(text) {
 	return text;
 };
 
-var compose_xml = exports.stringify = function compose_xml(node, name, indent, indent_string, eol) {
+var compose_xml = exports.stringify = function compose_xml(node, name, indent, indent_string, eol, sort) {
 	// Compose node into XML including attributes
 	// Recurse for child nodes
 	if (typeof(indent_string) == 'undefined') indent_string = "\t";
 	if (typeof(eol) == 'undefined') eol = "\n";
+       if (typeof(sort) == 'undefined') sort = true;
 	var xml = "";
 	
 	// If this is the root node, set the indent to 0
@@ -519,7 +520,7 @@ var compose_xml = exports.stringify = function compose_xml(node, name, indent, i
 			
 			if (node["_Attribs"]) {
 				has_attribs = 1;
-				var sorted_keys = hash_keys_to_array(node["_Attribs"]).sort();
+                               var sorted_keys = (sort) ? hash_keys_to_array(node["_Attribs"]).sort() : hash_keys_to_array(node["_Attribs"]);
 				for (var idx = 0, len = sorted_keys.length; idx < len; idx++) {
 					var key = sorted_keys[idx];
 					xml += " " + key + "=\"" + encode_attrib_entities(node["_Attribs"][key]) + "\"";
@@ -537,12 +538,12 @@ var compose_xml = exports.stringify = function compose_xml(node, name, indent, i
 				else {
 					xml += eol;
 					
-					var sorted_keys = hash_keys_to_array(node).sort();
+                                       var sorted_keys = (sort) ? hash_keys_to_array(node).sort() : hash_keys_to_array(node);					
 					for (var idx = 0, len = sorted_keys.length; idx < len; idx++) {
 						var key = sorted_keys[idx];					
 						if ((key != "_Attribs") && key.match(re_valid_tag_name)) {
 							// recurse for node, with incremented indent value
-							xml += compose_xml( node[key], key, indent + 1, indent_string, eol );
+							xml += compose_xml( node[key], key, indent + 1, indent_string, eol, sort );
 						} // not _Attribs key
 					} // foreach key
 					
@@ -558,7 +559,7 @@ var compose_xml = exports.stringify = function compose_xml(node, name, indent, i
 			// node is array
 			for (var idx = 0; idx < node.length; idx++) {
 				// recurse for node in array with same indent
-				xml += compose_xml( node[idx], name, indent, indent_string, eol );
+				xml += compose_xml( node[idx], name, indent, indent_string, eol, sort );
 			}
 		} // array of nodes
 	} // complex node

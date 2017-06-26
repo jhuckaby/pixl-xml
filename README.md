@@ -165,6 +165,34 @@ With the `preserveDocumentNode` flag set to true, this would produce the followi
 }
 ```
 
+### preserveWhitespace
+
+If you want to preserve whitespace before and after text inside elements, set the `preserveWhitespace` flag to a true value.  Note that this has no effect on attributes (whitespace is always preserved there), nor does it effect whitespace |between| complex elements.  Example:
+
+```js
+var xml_string = '<?xml version="1.0"?> <Document> ' + 
+	' <Simple>  Hello  </Simple> ' + 
+	' <Node Key="  Value  ">  Complex  </Node> ' + 
+	' </Document> ';
+
+var doc = XML.parse( xml_string, { preserveWhitespace: true } );
+console.log( doc );
+```
+
+With the `preserveWhitespace` flag set to true, this would produce the following object:
+
+```js
+{
+	"Simple": "  Hello  ",
+	"Node": {
+		"Key": "  Value  ",
+		"_Data": "  Complex  "
+	}
+}
+```
+
+Notice that the whitespace before/after all the opening and closing tags has no effect on the parsed object.  It only has effect |inside| elements that also contain a text value.
+
 ## Composing XML
 
 To compose XML back to a string, call `XML.stringify()` and pass in your pre-parsed XML object, and an outer wrapper element name.  It helps to parse using the [preserveAttributes](#preserveattributes) option for this, as it will honor the `_Attribs` sub-objects and convert them back into real XML attributes.  Example:
@@ -184,7 +212,7 @@ This would produce something like:
 </Document>
 ```
 
-Note that elements and attributes may lose their original ordering, as hashes have an undefined key order.  However, to keep things consistent, they are both alphabetically sorted when serialized.
+Note that elements and attributes may lose their original ordering, as hashes have an undefined key order.  However, to keep things consistent, they are both alphabetically sorted when serialized.  See [Preserve Sort Order](#preserve-sort-order) below for a possible workaround.
 
 If you are composing an XML document which has the document root node preserved (see [preserveDocumentNode](#preserveDocumentNode) above), simply omit the name parameter, and only pass in the object.  Example:
 
@@ -212,6 +240,16 @@ If you are composing an XML document which has the document root node preserved 
 ```js
 var xml_string = XML.stringify( doc, "", 0, "", "" );
 ```
+
+### Preserve Sort Order
+
+Most modern JavaScript engines including Node.js seem to magically preserve hash key order, although this goes against the ECMAScript specification.  If you want to take your chances and skip the alphabetic sort, and instead rely on natural key order, pass `false` as the 6th parameter when composing:
+
+```js
+var xml_string = XML.stringify( doc, 'Document', 0, "\t", "\n", false );
+```
+
+This will render elements and attributes in whatever order they come out of their hashes, which is up to your JavaScript runtime engine.
 
 # Object-Oriented API
 

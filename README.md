@@ -167,7 +167,7 @@ With the `preserveDocumentNode` flag set to true, this would produce the followi
 
 ### preserveWhitespace
 
-If you want to preserve whitespace before and after text inside elements, set the `preserveWhitespace` flag to a true value.  Note that this has no effect on attributes (whitespace is always preserved there), nor does it effect whitespace |between| complex elements.  Example:
+If you want to preserve whitespace before and after text inside elements, set the `preserveWhitespace` flag to a true value.  Note that this has no effect on attributes (whitespace is always preserved there), nor does it effect whitespace *between* complex elements.  Example:
 
 ```js
 var xml_string = '<?xml version="1.0"?> <Document> ' + 
@@ -191,7 +191,7 @@ With the `preserveWhitespace` flag set to true, this would produce the following
 }
 ```
 
-Notice that the whitespace before/after all the opening and closing tags has no effect on the parsed object.  It only has effect |inside| elements that also contain a text value.
+Notice that the whitespace before/after all the opening and closing tags has no effect on the parsed object.  It only has effect *inside* elements that also contain a text value.
 
 ## Composing XML
 

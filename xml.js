@@ -24,10 +24,13 @@
 	This version is for Node.JS, converted in 2012.
 */
 
-var fs = require('fs');
-var util = require('util');
+var fs, util;
+if (typeof window === 'undefined' && typeof process !== 'undefined') {
+	fs = require('fs');
+	util = require('util');
+}
 
-var isArray = Array.isArray || util.isArray; // support for older Node.js
+var isArray = Array.isArray || (util && util.isArray); // support for older Node.js
 
 var xml_header = '<?xml version="1.0"?>';
 var sort_args = null;
@@ -55,7 +58,7 @@ var XML = exports.XML = exports.Parser = function XML(args, opts) {
 	if (!this.text.match(/^\s*</)) {
 		// try as file path
 		var file = this.text;
-		this.text = fs.readFileSync(file, { encoding: 'utf8' });
+		this.text = fs && fs.readFileSync(file, { encoding: 'utf8' });
 		if (!this.text) throw new Error("File not found: " + file);
 	}
 	

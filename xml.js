@@ -60,8 +60,6 @@ var XML = exports.XML = exports.Parser = function XML(args, opts) {
 		var file = this.text;
 		this.text = fs && fs.readFileSync(file, { encoding: 'utf8' });
 		if (!this.text) throw new Error("File not found: " + file);
-	} else {
-		throw new Error("Invalid XML input");
 	}
 	
 	this.tree = {};

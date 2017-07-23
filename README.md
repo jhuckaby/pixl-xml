@@ -193,6 +193,38 @@ With the `preserveWhitespace` flag set to true, this would produce the following
 
 Notice that the whitespace before/after all the opening and closing tags has no effect on the parsed object.  It only has effect *inside* elements that also contain a text value.
 
+### forceArrays
+
+By default single elements are not represented as arrays, until another element with the same appears at the same level in the XML tree.  However, if you want to force every element into an array all the time, even when there is only a single element with a given name, set the `forceArrays` property to true.  Example:
+
+```js
+var xml_string = '<?xml version="1.0"?><Document>' + 
+	'<Simple>Hello</Simple>' + 
+	'<Node Key="Value">Complex</Node>' + 
+	'</Document>';
+
+var doc = XML.parse( xml_string, { forceArrays: true } );
+console.log( doc );
+```
+
+With the `forceArrays` flag set to true, this would produce the following object:
+
+```js
+{
+	"Simple": [
+		"Hello"
+	],
+	"Node": [
+		{
+			"Key": "Value",
+			"_Data": "Complex"
+		}
+	]
+}
+```
+
+Please note that this feature applies only to elements, not attributes.
+
 ## Composing XML
 
 To compose XML back to a string, call `XML.stringify()` and pass in your pre-parsed XML object, and an outer wrapper element name.  It helps to parse using the [preserveAttributes](#preserveattributes) option for this, as it will honor the `_Attribs` sub-objects and convert them back into real XML attributes.  Example:

@@ -78,6 +78,7 @@ XML.prototype.preserveDocumentNode = false;
 XML.prototype.preserveAttributes = false;
 XML.prototype.preserveWhitespace = false;
 XML.prototype.lowerCase = false;
+XML.prototype.forceArrays = false;
 
 XML.prototype.patTag = /([^<]*?)<([^>]+)>/g;
 XML.prototype.patSpecialTag = /^\s*([\!\?])/;
@@ -211,6 +212,9 @@ XML.prototype.parse = function(branch, name) {
 						var temp = branch[nodeName];
 						branch[nodeName] = [ temp, leaf ];
 					}
+				}
+				else if (this.forceArrays && (branch != this.tree)) {
+					branch[nodeName] = [ leaf ];
 				}
 				else {
 					branch[nodeName] = leaf;

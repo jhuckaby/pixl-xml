@@ -6,6 +6,7 @@
   "homepage": "https://github.com/jhuckaby/pixl-xml",
   "license": "MIT",
   "main": "xml.js",
+  "typings": "pixl-xml.d.ts",
   "repository": {
     "type": "git",
     "url": "https://github.com/jhuckaby/pixl-xml"
@@ -14,7 +15,8 @@
     "url": "https://github.com/jhuckaby/pixl-xml/issues"
   },
   "keywords": [
-    "xml"
+    "xml",
+    "parser"
   ],
   "dependencies": {},
   "devDependencies": {}

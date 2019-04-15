@@ -3,15 +3,15 @@
   "version": "1.0.13",
   "description": "A simple module for parsing and composing XML.",
   "author": "Joseph Huckaby <jhuckaby@gmail.com>",
-  "homepage": "https://github.com/jhuckaby/pixl-xml",
+  "homepage": "https://github.com/nittygritty-uk/pixl-xml",
   "license": "MIT",
   "main": "xml.js",
   "repository": {
     "type": "git",
-    "url": "https://github.com/jhuckaby/pixl-xml"
+    "url": "https://github.com/nittygritty-uk/pixl-xml"
   },
   "bugs": {
-    "url": "https://github.com/jhuckaby/pixl-xml/issues"
+    "url": "https://github.com/nittygritty-uk/pixl-xml/issues"
   },
   "keywords": [
     "xml"

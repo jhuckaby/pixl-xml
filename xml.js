@@ -29,7 +29,7 @@ var util = require('util');
 
 var isArray = Array.isArray || util.isArray; // support for older Node.js
 
-var xml_header = '<?xml version="1.0"?>';
+var xml_header = '<?xml version="1.0" encoding="utf-8"?>';
 var sort_args = null;
 var re_valid_tag_name  = /^\w[\w\-\:\.]*$/;
 
